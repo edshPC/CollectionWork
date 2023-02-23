@@ -1,0 +1,42 @@
+[
+    {
+        "price": 777,
+        "name": "Имя",
+        "coordinates": {
+            "x": 10.2,
+            "y": 123
+        },
+        "comment": "Зачем он?",
+        "id": 1,
+        "creationDate": "2023-02-19T15:44:04.869324600+03:00[Europe/Moscow]",
+        "type": "BUDGETARY",
+        "event": {
+            "date": "2023-02-23",
+            "ticketsCount": 3,
+            "minAge": 6,
+            "name": "Представление",
+            "id": 1,
+            "eventType": "CONCERT"
+        }
+    },
+    {
+        "price": 1,
+        "name": "Ы",
+        "coordinates": {
+            "x": 0,
+            "y": 0
+        },
+        "comment": "ЫЫЫ",
+        "id": 2,
+        "creationDate": "2023-02-19T16:02:41.059069700+03:00[Europe/Moscow]",
+        "type": "VIP",
+        "event": {
+            "date": "2020-02-20",
+            "ticketsCount": 7,
+            "minAge": 0,
+            "name": "ЫЫЫЫЫЫЫЫ",
+            "id": 2,
+            "eventType": "E_SPORTS"
+        }
+    }
+]
