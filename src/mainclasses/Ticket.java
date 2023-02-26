@@ -1,5 +1,7 @@
 package mainclasses;
 import java.time.ZonedDateTime;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,7 +9,7 @@ import org.json.JSONObject;
 import enums.TicketType;
 import exeptions.WrongFieldExeption;
 
-public class Ticket {
+public class Ticket implements Comparable<Ticket> {
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -18,6 +20,7 @@ public class Ticket {
     private Event event; //Поле не может быть null
     
     private static long lastId = 0;
+    private static LinkedList<Ticket> list;
     
     public Ticket(String name, Coordinates coordinates, long price, String comment, TicketType type, Event event) throws WrongFieldExeption {
 		id = ++lastId;
@@ -59,6 +62,16 @@ public class Ticket {
     	return jObj;
     }
     
+    public Event getEvent() {
+		return this.event;
+	}
+    public String getComment() {
+		return this.comment;
+	}
+    public long getPrice() {
+		return this.price;
+	}
+    
     @Override
     public String toString() {
     	String out = "Информация о билете #" + id + ":\n" +
@@ -71,6 +84,105 @@ public class Ticket {
     			" - Событие: " + event;
     	
     	return out;
+    }
+    
+    @Override
+	public int compareTo(Ticket t) {
+    	int diff = this.name.compareTo(t.name);
+    	if(diff != 0)
+    		return diff;
+    	diff = this.creationDate.compareTo(t.creationDate);
+		
+		return diff;
+	}
+    
+    public static void putWithId(int index, long id, Ticket t) {
+		if(lastId == t.id)
+			lastId--;
+		t.id = id;
+		list.set(index, t);
+    	lastId = Math.max(lastId, id);
+    }
+    
+    public static void setList(LinkedList<Ticket> list) {
+    	Ticket.list = list;
+    }
+    
+    public static void sortList() {
+    	list.sort(Ticket::compareTo);
+    }
+    
+    public static int getIndexById(long id) {
+    	int index = 0;
+    	for(Ticket check : Ticket.list) {
+    		if(check.id == id)
+    			return index;
+    		index++;
+    	}
+    	return -1;
+    }
+    
+    public static Ticket create(Scanner sc) throws WrongFieldExeption {
+    	System.out.print("Введи имя билета:\n>> ");
+		String ticketName = sc.nextLine();
+		
+		Coordinates coords = null;
+		while(true) {
+			System.out.print("Введи координаты места через запятую (x - float <= 542, y - int <= 203, пример: '10.2, 20'):\n>> ");
+			String[] coordsStr = sc.nextLine().split(", ");
+			try {
+				float x = Float.valueOf(coordsStr[0]);
+				int y = Integer.valueOf(coordsStr[1]);
+				coords = new Coordinates(x, y);
+				break;
+			} catch (NumberFormatException | IndexOutOfBoundsException | WrongFieldExeption e) {
+				System.err.println("Ошибка при вводе координат: " + e.getMessage());
+			}
+		}
+		
+		long price = 0;
+		while(true) {
+			System.out.print("Введи цену билета (long > 0):\n>> ");
+			try {
+				price = Long.valueOf(sc.nextLine());
+				break;
+			} catch (NumberFormatException e) {
+				System.err.println("Ошибка при вводе цены: " + e.getMessage());
+			}
+		}
+		
+		System.out.print("Введи комментарий:\n>> ");
+		String comment = sc.nextLine();
+		
+		TicketType type = null;
+		while(true) {
+			System.out.println("Введи номер типа билета, доступные типы:");
+			TicketType[] values = TicketType.values();
+			for(int i=0; i<values.length; i++) {
+				System.out.println(" " + (i+1) + ". " + values[i]);
+			}
+			System.out.print(">> ");
+			try {
+				int id = Integer.valueOf(sc.nextLine());
+				type = values[id-1];
+				break;
+			} catch (NumberFormatException | IndexOutOfBoundsException e) {
+				System.err.println("Ошибка при вводе типа: " + e.getMessage());
+			}
+		}
+		
+		Event event = null;
+		while(true) {
+			try {
+				event = Event.create(sc);
+				break;
+			} catch (Exception e) {
+				System.err.println("Ошибка при создании события: " + e.getMessage());
+			}
+		}
+		
+		
+    	return new Ticket(ticketName, coords, price, comment, type, event);
     }
        
 }

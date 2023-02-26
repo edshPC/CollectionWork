@@ -2,21 +2,22 @@ package command;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import helpers.FileHelper;
 import mainclasses.Ticket;
 
 public class CommandHelper {
-	private LinkedList<Ticket> list;
-	private FileHelper fileHelper;
+	//private LinkedList<Ticket> list;
+	//private FileHelper fileHelper;
 	private Scanner sc;
 	private HashMap<String, Command> commands;
 	
-	public CommandHelper(LinkedList<Ticket> list, FileHelper fh) {
-		this.list = list;
-		this.fileHelper = fh;
-		sc = new Scanner(System.in);
+	public CommandHelper(Scanner sc) {
+		//this.list = list;
+		//this.fileHelper = fh;
+		this.sc = sc;
 		commands = new HashMap<>();
 	}
 	
@@ -26,13 +27,25 @@ public class CommandHelper {
 		}
 	}
 	
+	public void registerAllCommands(LinkedList<Ticket> list, FileHelper fileHelper) {
+		registerCommands(new HelpCmd(), new InfoCmd(list, fileHelper), new ShowCmd(list), new AddCmd(list, sc),
+				new UpdateCmd(sc), new RemoveByIdCmd(list), new ClearCmd(list), new SaveCmd(list, fileHelper),
+				new ExecuteScriptCmd(list, fileHelper), new ExitCmd(sc), new RemoveFirstCmd(list),
+				new RemoveGreaterCmd(list), new RemoveLowerCmd(list), new RemoveAllByEventCmd(list, sc),
+				new FilterContainsCommentCmd(list), new PrintUniquePriceCmd(list), new SortCmd());
+	}
+	
 	public void executeNextCommand() {
 		System.out.print("> ");
 		String[] cmd = sc.nextLine().split(" ");
 		
-		if(commands.containsKey(cmd[0])) {
+		if(cmd.length > 0 && commands.containsKey(cmd[0])) {
 			Command command = commands.get(cmd[0]);
-			System.out.println(command.execute(cmd));
+			try {
+				System.out.println(command.execute(cmd));
+			} catch (NoSuchElementException e) {
+				System.err.println("Не хватает данных для последней команды");
+			}
 			
 		} else {
 			System.err.println("Данной команды не существует. Введите 'help' для просмотра списка команд");
@@ -40,6 +53,6 @@ public class CommandHelper {
 		
 		
 		
-		executeNextCommand();
+		//executeNextCommand();
 	}
 }

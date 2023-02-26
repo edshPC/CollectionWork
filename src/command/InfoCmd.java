@@ -7,15 +7,18 @@ import mainclasses.Ticket;
 
 public class InfoCmd implements Command {
 	private LinkedList<Ticket> list;
+	private FileHelper fh;
 	
-	private InfoCmd(LinkedList<Ticket> list) {
+	public InfoCmd(LinkedList<Ticket> list, FileHelper fh) {
 		this.list = list;
+		this.fh = fh;
 	}
 	
 	@Override
 	public String execute(String[] args) {
+		String[] creationTime = fh.getCreationTime().toString().split("[T.]");
 		String out = "Тип коллекции: LinkedList\n" +
-				"Дата инициализации: " + "00-00-0000" + "\n" +
+				"Дата инициализации: " + creationTime[0] + " " + creationTime[1] + "\n" +
 				"Количество элементов: " + list.size();
 		return out;
 	}
@@ -23,15 +26,6 @@ public class InfoCmd implements Command {
 	@Override
 	public String getName() {
 		return "info";
-	}
-	
-	private static InfoCmd instance;
-	
-	public static synchronized InfoCmd get(LinkedList<Ticket> list) {
-		if (instance == null) {
-			instance = new InfoCmd(list);
-		}
-		return instance;
 	}
 
 }

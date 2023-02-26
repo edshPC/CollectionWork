@@ -1,5 +1,6 @@
 package mainclasses;
 import java.time.LocalDate;
+import java.util.Scanner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,4 +63,76 @@ public class Event {
     			"   - “ип: " + eventType;
     	return out;
     }
+    
+    @Override
+    public boolean equals(Object o) {
+    	if(o == this)
+    		return true;
+    	
+    	if(!(o instanceof Event))
+    		return false;
+    	
+    	Event ev = (Event)o;
+		return name.equals(ev.name) && date.equals(ev.date) && minAge == ev.minAge &&
+				ticketsCount == ev.ticketsCount && eventType.equals(ev.eventType);
+	}
+    
+    public static Event create(Scanner sc) throws WrongFieldExeption {
+    	System.out.println("¬веди данные событи€ билета:");
+		System.out.print("¬веди название:\n>>> ");
+		String evName = sc.nextLine();
+		
+		LocalDate ld = null;
+		while (true) {
+			System.out.print("¬веди дату проведени€ в формате 'YYYY-MM-DD':\n>>> ");
+			try {
+				ld = LocalDate.parse(sc.nextLine());
+				break;
+			} catch (Exception e) {
+				System.err.println("ќшибка при вводе даты: " + e.getMessage());
+			}
+		}
+		
+		long minAge = 0;
+		while (true) {
+			System.out.print("¬веди минимальный возраст (число):\n>>> ");
+			try {
+				minAge = Long.valueOf(sc.nextLine());
+				break;
+			} catch (Exception e) {
+				System.err.println("ќшибка при вводе возраста: " + e.getMessage());
+			}
+		}
+		
+		long ticketsCount = 0;
+		while (true) {
+			System.out.print("¬веди количество билетов (число > 0):\n>>> ");
+			try {
+				ticketsCount = Long.valueOf(sc.nextLine());
+				break;
+			} catch (Exception e) {
+				System.err.println("ќшибка при вводе количества: " + e.getMessage());
+			}
+		}
+		
+		EventType type = null;
+		while(true) {
+			System.out.println("¬веди номер типа событи€, доступные типы:");
+			EventType[] values = EventType.values();
+			for(int i=0; i<values.length; i++) {
+				System.out.println(" " + (i+1) + ". " + values[i]);
+			}
+			System.out.print(">>> ");
+			try {
+				int id = Integer.valueOf(sc.nextLine());
+				type = values[id-1];
+				break;
+			} catch (Exception e) {
+				System.err.println("ќшибка при вводе типа: " + e.getMessage());
+			}
+		}
+		
+		return new Event(evName, ld, minAge, ticketsCount, type);
+    }
+    
 }

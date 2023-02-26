@@ -1,11 +1,19 @@
 package command;
 
+import java.util.Scanner;
+
 public class ExitCmd implements Command {
-	private ExitCmd() {}
+	
+	private Scanner sc;
+		
+	public ExitCmd(Scanner sc) {
+		this.sc = sc;
+	}
 	
 	@Override
 	public String execute(String[] args) {
 		System.out.println("Выход из программы");
+		sc.close();
 		System.exit(0);
 		return "Программа завершена";
 	}
@@ -13,15 +21,6 @@ public class ExitCmd implements Command {
 	@Override
 	public String getName() {
 		return "exit";
-	}
-	
-	private static ExitCmd instance;
-	
-	public static synchronized ExitCmd get() {
-		if (instance == null) {
-			instance = new ExitCmd();
-		}
-		return instance;
 	}
 
 }

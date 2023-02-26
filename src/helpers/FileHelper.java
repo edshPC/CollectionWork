@@ -2,17 +2,22 @@ package helpers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileTime;
 import java.util.Scanner;
 
 public class FileHelper {
 	private String filename;
 	private String rawJson;
+	private Path filePath;
 	
 	public FileHelper(String filename) {
 		this.filename = filename;
+		this.filePath = Paths.get(filename);
 	}
 	
 	public boolean createFile() {
@@ -28,12 +33,12 @@ public class FileHelper {
 	public boolean readFile() {
 		String source = "";
 		try {
-			Scanner sc = new Scanner(new FileReader(filename));
+			Scanner sc = new Scanner(filePath);
 			while (sc.hasNextLine()) {
 				source += sc.nextLine();
 			}
 			sc.close();
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			System.err.println("Файл не найден. Лист объектов пуст");
 			return false;
 		}
@@ -69,6 +74,14 @@ public class FileHelper {
 	
 	public boolean writeToFile() {
 		return writeToFile(rawJson);
+	}
+	
+	public FileTime getCreationTime() {
+		try {
+			return (FileTime) Files.getAttribute(Paths.get(filename), "creationTime");
+		} catch (IOException e) {
+			return FileTime.fromMillis(0);
+		}
 	}
 	
 }

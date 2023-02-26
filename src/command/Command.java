@@ -1,6 +1,8 @@
 package command;
 
+import java.util.NoSuchElementException;
+
 public interface Command {
-	String execute(String[] args);
+	String execute(String[] args) throws NoSuchElementException;
 	String getName();
 }

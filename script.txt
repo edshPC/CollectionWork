@@ -1,0 +1,15 @@
+info
+clear
+add
+name
+12.2, 5
+200
+comment
+2
+Cool event
+2023-10-20
+12
+3
+2
+show
+execute_script script.txt

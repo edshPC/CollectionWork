@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Scanner;
 
 import command.*;
 import exeptions.*;
@@ -26,11 +27,15 @@ public class Main {
 				}
 			}
 		}
+		Ticket.setList(tickets);
+		//Ticket.sortList();
 		
-		CommandHelper commandHelper = new CommandHelper(tickets, fileHelper);
-		commandHelper.registerCommands(HelpCmd.get(), InfoCmd.get(tickets), ShowCmd.get(tickets), AddCmd.get(tickets),
-				ClearCmd.get(tickets), ExitCmd.get(), SaveCmd.get(tickets, fileHelper));
-		commandHelper.executeNextCommand();		
+		Scanner sc = new Scanner(System.in);
+		CommandHelper commandHelper = new CommandHelper(sc);
+		commandHelper.registerAllCommands(tickets, fileHelper);
+		
+		while(true)
+			commandHelper.executeNextCommand();		
 
 	}
 	

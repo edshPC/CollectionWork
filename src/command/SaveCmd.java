@@ -12,7 +12,7 @@ public class SaveCmd implements Command {
 	private LinkedList<Ticket> list;
 	private FileHelper fh;
 	
-	private SaveCmd(LinkedList<Ticket> list, FileHelper fh) {
+	public SaveCmd(LinkedList<Ticket> list, FileHelper fh) {
 		this.list = list;
 		this.fh = fh;
 	}
@@ -33,15 +33,6 @@ public class SaveCmd implements Command {
 	@Override
 	public String getName() {
 		return "save";
-	}
-	
-	private static SaveCmd instance;
-	
-	public static synchronized SaveCmd get(LinkedList<Ticket> list, FileHelper fh) {
-		if (instance == null) {
-			instance = new SaveCmd(list, fh);
-		}
-		return instance;
 	}
 
 }

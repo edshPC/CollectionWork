@@ -21,22 +21,62 @@
     },
     {
         "price": 1,
-        "name": "л",
+        "name": "updated",
         "coordinates": {
-            "x": 0,
-            "y": 0
+            "x": 1,
+            "y": 1
         },
-        "comment": "ллл",
+        "comment": "1",
         "id": 2,
-        "creationDate": "2023-02-19T16:02:41.059069700+03:00[Europe/Moscow]",
+        "creationDate": "2023-02-25T19:43:31.302585200+03:00[Europe/Moscow]",
         "type": "VIP",
         "event": {
-            "date": "2020-02-20",
-            "ticketsCount": 7,
-            "minAge": 0,
-            "name": "лллллллл",
-            "id": 2,
-            "eventType": "E_SPORTS"
+            "date": "2000-10-10",
+            "ticketsCount": 23,
+            "minAge": 12,
+            "name": "upd",
+            "id": 5,
+            "eventType": "THEATRE_PERFORMANCE"
+        }
+    },
+    {
+        "price": 1,
+        "name": "after",
+        "coordinates": {
+            "x": 1,
+            "y": 1
+        },
+        "comment": "1",
+        "id": 4,
+        "creationDate": "2023-02-25T19:09:31.160959700+03:00[Europe/Moscow]",
+        "type": "VIP",
+        "event": {
+            "date": "2000-01-01",
+            "ticketsCount": 1,
+            "minAge": 1,
+            "name": "1",
+            "id": 4,
+            "eventType": "CONCERT"
+        }
+    },
+    {
+        "price": 20,
+        "name": "name",
+        "coordinates": {
+            "x": 1,
+            "y": 1
+        },
+        "comment": "c",
+        "id": 5,
+        "creationDate": "2023-02-26T17:03:25.814394300+03:00[Europe/Moscow]",
+        "type": "CHEAP",
+        "event": {
+            "date": "2000-10-10",
+            "ticketsCount": 1,
+            "minAge": 12,
+            "name": "b|",
+            "id": 6,
+            "eventType": "BASKETBALL"
         }
     }
 ]

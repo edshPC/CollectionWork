@@ -1,7 +1,6 @@
 package command;
 
 public class HelpCmd implements Command {
-	private HelpCmd() {}
 	
 	@Override
 	public String execute(String[] args) {
@@ -11,32 +10,24 @@ public class HelpCmd implements Command {
 				- show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении
 				- add {element} : добавить новый элемент в коллекцию
 				- update id {element} : обновить значение элемента коллекции, id которого равен заданному
-				- remove_by_id id : удалить элемент из коллекции по его id
+				- remove_by_id {id} : удалить элемент из коллекции по его id
 				- clear : очистить коллекцию
 				- save : сохранить коллекцию в файл
-				- execute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.
+				- execute_script {file_name} : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.
 				- exit : завершить программу (без сохранения в файл)
 				- remove_first : удалить первый элемент из коллекции
-				- remove_greater {element} : удалить из коллекции все элементы, превышающие заданный
-				- remove_lower {element} : удалить из коллекции все элементы, меньшие, чем заданный
-				- remove_all_by_event event : удалить из коллекции все элементы, значение поля event которого эквивалентно заданному
-				- filter_contains_comment comment : вывести элементы, значение поля comment которых содержит заданную подстроку
-				- print_unique_price : вывести уникальные значения поля price всех элементов в коллекции""";
+				- remove_greater {id} : удалить из коллекции все элементы, превышающие заданный
+				- remove_lower {id} : удалить из коллекции все элементы, меньшие, чем заданный
+				- remove_all_by_event {event} : удалить из коллекции все элементы, значение поля event которого эквивалентно заданному
+				- filter_contains_comment [comment] : вывести элементы, значение поля comment которых содержит заданную подстроку
+				- print_unique_price : вывести уникальные значения поля price всех элементов в коллекции
+				- sort : отсортировать коллекцию""";
 		return out;
 	}
 
 	@Override
 	public String getName() {
 		return "help";
-	}
-	
-	private static HelpCmd instance;
-	
-	public static synchronized HelpCmd get() {
-		if (instance == null) {
-			instance = new HelpCmd();
-		}
-		return instance;
 	}
 
 }
