@@ -55,6 +55,10 @@ public class Ticket implements Comparable<Ticket> {
     	lastId = Math.max(lastId, this.id);
     }
     
+    /**
+     * Метод собирает {@link JSONObject} по своему объекту
+     * @return Все поля объекта в виде {@link JSONObject}
+     */
     public JSONObject toJsonObject() {
     	JSONObject jObj = new JSONObject();
     	jObj.put("id", id).put("name", name).put("coordinates", coordinates.toJsonObject()).put("creationDate", creationDate.toString())
@@ -96,6 +100,12 @@ public class Ticket implements Comparable<Ticket> {
 		return diff;
 	}
     
+    /**
+     * Метод заменяет заданный объект в коллекции, по заданному индексу, устанавливая ему заданный id
+     * @param index Индекс, куда поместить
+     * @param id id, которое нужно присвоить
+     * @param t Билет, который нужно встроить
+     */
     public static void putWithId(int index, long id, Ticket t) {
 		if(lastId == t.id)
 			lastId--;
@@ -104,14 +114,26 @@ public class Ticket implements Comparable<Ticket> {
     	lastId = Math.max(lastId, id);
     }
     
+    /**
+     * Устанавливает коллекцию классу, для ее обработки
+     * @param list Коллекция
+     */
     public static void setList(LinkedList<Ticket> list) {
     	Ticket.list = list;
     }
     
+    /**
+     * Сортирует коллекицию по имени, затем по дате создания
+     */
     public static void sortList() {
     	list.sort(Ticket::compareTo);
     }
     
+    /**
+     * Возвращает индекс элемента в коллекции по его id
+     * @param id id
+     * @return Индекс
+     */
     public static int getIndexById(long id) {
     	int index = 0;
     	for(Ticket check : Ticket.list) {
@@ -122,6 +144,12 @@ public class Ticket implements Comparable<Ticket> {
     	return -1;
     }
     
+    /**
+     * Начинает создание нового объекта билета, используя данный сканер
+     * @param sc Сканер, который берет информацию
+     * @return Новый объект класса {@link Ticket}
+     * @throws WrongFieldExeption Если поля у созданного объекта неверные
+     */
     public static Ticket create(Scanner sc) throws WrongFieldExeption {
     	System.out.print("Введи имя билета:\n>> ");
 		String ticketName = sc.nextLine();

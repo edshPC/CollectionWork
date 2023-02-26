@@ -46,6 +46,10 @@ public class Event {
 		lastId = Math.max(lastId, this.id);
     }
     
+    /**
+     * Метод собирает {@link JSONObject} по своему объекту
+     * @return Все поля объекта в виде {@link JSONObject}
+     */
     public JSONObject toJsonObject() {
     	JSONObject jObj = new JSONObject();
     	jObj.put("id", id).put("name", name).put("date", date.toString()).put("minAge", minAge)
@@ -77,6 +81,12 @@ public class Event {
 				ticketsCount == ev.ticketsCount && eventType.equals(ev.eventType);
 	}
     
+    /**
+     * Начинает создание нового объекта объекта, используя данный сканер
+     * @param sc Сканер, который берет информацию
+     * @return Новый объект класса {@link Event}
+     * @throws WrongFieldExeption Если поля у созданного объекта неверные
+     */
     public static Event create(Scanner sc) throws WrongFieldExeption {
     	System.out.println("Введи данные события билета:");
 		System.out.print("Введи название:\n>>> ");

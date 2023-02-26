@@ -15,7 +15,6 @@ public class AddCmd implements Command {
 		this.sc = sc;
 	}
 	
-	
 	@Override
 	public String execute(String[] args) {
 		//Scanner sc = new Scanner(System.in);

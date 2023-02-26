@@ -14,6 +14,10 @@ public class CommandHelper {
 	private Scanner sc;
 	private HashMap<String, Command> commands;
 	
+	/**
+	 * Создает объект, работающий с командами из определенного потока в {@link Scanner}
+	 * @param sc Сканер
+	 */
 	public CommandHelper(Scanner sc) {
 		//this.list = list;
 		//this.fileHelper = fh;
@@ -21,12 +25,21 @@ public class CommandHelper {
 		commands = new HashMap<>();
 	}
 	
+	/**
+	 * Регистрирует данные команды, сохраняя ее имя и объект в {@link HashMap}
+	 * @param cmds Команды
+	 */
 	public void registerCommands(Command... cmds) {
 		for(Command cmd : cmds) {
 			this.commands.put(cmd.getName(), cmd);
 		}
 	}
 	
+	/**
+	 * Регистрирует все возможные команды
+	 * @param list Массив для сортировки командами
+	 * @param fileHelper Помощник, работающий с определенным файлом
+	 */
 	public void registerAllCommands(LinkedList<Ticket> list, FileHelper fileHelper) {
 		registerCommands(new HelpCmd(), new InfoCmd(list, fileHelper), new ShowCmd(list), new AddCmd(list, sc),
 				new UpdateCmd(sc), new RemoveByIdCmd(list), new ClearCmd(list), new SaveCmd(list, fileHelper),
@@ -35,6 +48,9 @@ public class CommandHelper {
 				new FilterContainsCommentCmd(list), new PrintUniquePriceCmd(list), new SortCmd());
 	}
 	
+	/**
+	 * Начинает ожидание ввода и исполнение команды пользователя, считывая через собственный {@link Scanner}
+	 */
 	public void executeNextCommand() {
 		System.out.print("> ");
 		String[] cmd = sc.nextLine().split(" ");

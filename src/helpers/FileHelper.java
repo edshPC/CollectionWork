@@ -15,11 +15,19 @@ public class FileHelper {
 	private String rawJson;
 	private Path filePath;
 	
+	/**
+	 * Создает объект помощника, работающего с определенным файлом
+	 * @param filename Имя файла в одной папке с программой / путь до этого файла
+	 */
 	public FileHelper(String filename) {
 		this.filename = filename;
 		this.filePath = Paths.get(filename);
 	}
 	
+	/**
+	 * Создание файла по заданному названию
+	 * @return Был ли создан файл
+	 */
 	public boolean createFile() {
 		File file = new File(filename);
 		try {
@@ -30,6 +38,10 @@ public class FileHelper {
 		return false;
 	}
 	
+	/**
+	 * Чтение данных из заданного файла
+	 * @return Успешно ли чтение
+	 */
 	public boolean readFile() {
 		String source = "";
 		try {
@@ -55,6 +67,11 @@ public class FileHelper {
 		this.rawJson = rawJson;
 	}
 	
+	/**
+	 * Запись в заданный файл json-строки
+	 * @param rawJson json-строка для записи
+	 * @return Успешна ли запись
+	 */
 	public boolean writeToFile(String rawJson) {
 		try {
 			FileWriter fw = new FileWriter(filename);
@@ -72,10 +89,18 @@ public class FileHelper {
 		return true;
 	}
 	
+	/**
+	 * Запись в заданный файл заданной ранее json-строки
+	 * @return Успешна ли запись
+	 */
 	public boolean writeToFile() {
 		return writeToFile(rawJson);
 	}
 	
+	/**
+	 * Получает время создания файла, с которым работает в формате {@link FileTime}
+	 * @return Время создания файла / the epoch time (1970-01-01), если файл не создан
+	 */
 	public FileTime getCreationTime() {
 		try {
 			return (FileTime) Files.getAttribute(Paths.get(filename), "creationTime");

@@ -20,6 +20,10 @@ public class JsonHelper {
 		this.jsonArr = jsonArr;
 	}	
 	
+	/**
+	 * Парсинг ранее заданной строки в {@link JSONArray}
+	 * @return Успешен ли парсинг
+	 */
 	public boolean parseRawJson() {
 		try {
 			jsonArr = new JSONArray(rawJson);
@@ -31,6 +35,9 @@ public class JsonHelper {
 		return true;
 	}
 	
+	/**
+	 * Перевод заданного {@link JSONArray} в красивую строку
+	 */
 	public void stringifyJsonArr() {
 		rawJson = jsonArr.toString(4);
 	}
@@ -39,6 +46,11 @@ public class JsonHelper {
 		return jsonArr;
 	}
 	
+	/**
+	 * Сбор коллекции объектов из заданного {@link JSONArray}
+	 * @return Собранная коллекция
+	 * @throws WrongFieldExeption Если поля хотя бы одного объекта недопустимы
+	 */
 	public LinkedList<Ticket> toLinkedList() throws WrongFieldExeption {
 		LinkedList<Ticket> temp = new LinkedList<>();
 		
