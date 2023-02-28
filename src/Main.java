@@ -12,6 +12,8 @@ public class Main {
 		String filename = "source.json";
 		if(args.length > 0)
 			filename = args[0];
+		else
+			System.out.println("Вы не ввели название файла в аргументах. Попытка загрузки из файла по умолчанию: 'source.json'");
 		
 		FileHelper fileHelper = new FileHelper(filename);
 		LinkedList<Ticket> tickets = new LinkedList<>();

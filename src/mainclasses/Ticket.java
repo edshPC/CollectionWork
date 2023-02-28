@@ -92,7 +92,11 @@ public class Ticket implements Comparable<Ticket> {
     
     @Override
 	public int compareTo(Ticket t) {
-    	int diff = this.name.compareTo(t.name);
+    	int diff = this.event.compareTo(t.event);
+    	if(diff != 0)
+    		return diff;
+    	
+    	diff = this.name.compareTo(t.name);
     	if(diff != 0)
     		return diff;
     	diff = this.creationDate.compareTo(t.creationDate);
@@ -132,7 +136,7 @@ public class Ticket implements Comparable<Ticket> {
     /**
      * Возвращает индекс элемента в коллекции по его id
      * @param id id
-     * @return Индекс
+     * @return Индекс / -1 если объект не найден
      */
     public static int getIndexById(long id) {
     	int index = 0;

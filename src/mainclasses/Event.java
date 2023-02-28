@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import enums.EventType;
 import exeptions.WrongFieldExeption;
 
-public class Event {
+public class Event implements Comparable<Event> {
     private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private LocalDate date; //Поле может быть null
@@ -67,6 +67,11 @@ public class Event {
     			"   - Тип: " + eventType;
     	return out;
     }
+    
+    @Override
+	public int compareTo(Event ev) {
+		return this.date.compareTo(ev.date);
+	}
     
     @Override
     public boolean equals(Object o) {
