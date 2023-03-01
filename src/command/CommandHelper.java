@@ -51,24 +51,24 @@ public class CommandHelper {
 	/**
 	 * Начинает ожидание ввода и исполнение команды пользователя, считывая через собственный {@link Scanner}
 	 */
-	public void executeNextCommand() {
+	public boolean executeNextCommand() {
 		System.out.print("> ");
-		String[] cmd = sc.nextLine().split(" ");
-		
-		if(cmd.length > 0 && commands.containsKey(cmd[0])) {
-			Command command = commands.get(cmd[0]);
-			try {
+		try {
+			String[] cmd = sc.nextLine().split(" ");
+			
+			if(cmd.length > 0 && commands.containsKey(cmd[0])) {
+				Command command = commands.get(cmd[0]);
 				System.out.println(command.execute(cmd));
-			} catch (NoSuchElementException e) {
-				System.err.println("Не хватает данных для последней команды");
+			} else {
+				if(cmd.length > 0 && !cmd[0].isEmpty())
+					System.err.println("Данной команды не существует. Введите 'help' для просмотра списка команд");
 			}
 			
-		} else {
-			System.err.println("Данной команды не существует. Введите 'help' для просмотра списка команд");
+		} catch (NoSuchElementException e) {
+			System.err.println("Ввод команд был прерван");
+			return false;
 		}
-		
-		
-		
+		return true;
 		//executeNextCommand();
 	}
 }

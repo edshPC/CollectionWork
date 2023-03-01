@@ -31,6 +31,7 @@ public class FileHelper {
 	public boolean createFile() {
 		File file = new File(filename);
 		try {
+			Files.createDirectories(filePath.getParent());
 			return file.createNewFile();
 		} catch (Exception e) {
 			System.err.println("Ошибка в создании файла");
@@ -44,12 +45,10 @@ public class FileHelper {
 	 */
 	public boolean readFile() {
 		String source = "";
-		try {
-			Scanner sc = new Scanner(filePath);
+		try (Scanner sc = new Scanner(filePath)) {
 			while (sc.hasNextLine()) {
 				source += sc.nextLine();
 			}
-			sc.close();
 		} catch (IOException e) {
 			System.err.println("Файл не найден. Лист объектов пуст");
 			return false;
@@ -73,16 +72,18 @@ public class FileHelper {
 	 * @return Успешна ли запись
 	 */
 	public boolean writeToFile(String rawJson) {
-		try {
-			FileWriter fw = new FileWriter(filename);
+		try (FileWriter fw = new FileWriter(filename)) {
 			fw.write(rawJson);
-			fw.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Файла не существует. Создание...");
-			createFile();
-			writeToFile(rawJson);
+			if(createFile())
+				writeToFile(rawJson);
+			else {
+				System.err.println("Ошибка в создании файла. Попробуйте изменить права доступа");
+				return false;
+			}
 		} catch (IOException e) {
-			System.err.print("Ошибка в записи файла. Попробуйте изменить права доступа");
+			System.err.println("Ошибка в записи файла. Попробуйте изменить права доступа");
 			return false;
 		}
 		

@@ -1,6 +1,7 @@
 package mainclasses;
 import java.time.ZonedDateTime;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import org.json.JSONException;
@@ -8,7 +9,7 @@ import org.json.JSONObject;
 
 import enums.TicketType;
 import exeptions.WrongFieldExeption;
-
+//lombok
 public class Ticket implements Comparable<Ticket> {
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -26,7 +27,7 @@ public class Ticket implements Comparable<Ticket> {
 		id = ++lastId;
 		creationDate = ZonedDateTime.now();
 		
-		if(name == null || name.isEmpty() || coordinates == null || price <= 0 || type == null || event == null)
+		if(name == null || name.isBlank() || coordinates == null || price <= 0 || type == null || event == null)
 			throw new WrongFieldExeption("Недопустимое значение поля");
 			//return;
 		
@@ -153,10 +154,20 @@ public class Ticket implements Comparable<Ticket> {
      * @param sc Сканер, который берет информацию
      * @return Новый объект класса {@link Ticket}
      * @throws WrongFieldExeption Если поля у созданного объекта неверные
+     * @throws NoSuchElementException Если ввод полей отменен
      */
-    public static Ticket create(Scanner sc) throws WrongFieldExeption {
-    	System.out.print("Введи имя билета:\n>> ");
-		String ticketName = sc.nextLine();
+    public static Ticket create(Scanner sc) throws WrongFieldExeption, NoSuchElementException {
+    	
+    	String ticketName;
+		while(true) {
+			System.out.print("Введи имя билета:\n>> ");
+			ticketName = sc.nextLine();
+			if(ticketName.isBlank()) {
+				System.err.println("Имя билета не должно быть пустым");
+				continue;
+			}
+			break;
+		}
 		
 		Coordinates coords = null;
 		while(true) {
@@ -174,9 +185,13 @@ public class Ticket implements Comparable<Ticket> {
 		
 		long price = 0;
 		while(true) {
-			System.out.print("Введи цену билета (long > 0):\n>> ");
+			System.out.print("Введи цену билета (число > 0):\n>> ");
 			try {
 				price = Long.valueOf(sc.nextLine());
+				if(price <= 0) {
+					System.err.println("Цена должна быть > 0");
+					continue;
+				}
 				break;
 			} catch (NumberFormatException e) {
 				System.err.println("Ошибка при вводе цены: " + e.getMessage());

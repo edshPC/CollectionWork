@@ -1,5 +1,6 @@
 package mainclasses;
 import java.time.LocalDate;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import org.json.JSONException;
@@ -91,11 +92,21 @@ public class Event implements Comparable<Event> {
      * @param sc Сканер, который берет информацию
      * @return Новый объект класса {@link Event}
      * @throws WrongFieldExeption Если поля у созданного объекта неверные
+     * @throws NoSuchElementException Если ввод полей отменен
      */
-    public static Event create(Scanner sc) throws WrongFieldExeption {
+    public static Event create(Scanner sc) throws WrongFieldExeption, NoSuchElementException {
     	System.out.println("Введи данные события билета:");
-		System.out.print("Введи название:\n>>> ");
-		String evName = sc.nextLine();
+		
+		String evName;
+		while(true) {
+			System.out.print("Введи название:\n>>> ");;
+			evName = sc.nextLine();
+			if(evName.isBlank()) {
+				System.err.println("Имя события не должно быть пустым");
+				continue;
+			}
+			break;
+		}
 		
 		LocalDate ld = null;
 		while (true) {

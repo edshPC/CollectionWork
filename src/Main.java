@@ -36,8 +36,7 @@ public class Main {
 		CommandHelper commandHelper = new CommandHelper(sc);
 		commandHelper.registerAllCommands(tickets, fileHelper);
 		
-		while(true)
-			commandHelper.executeNextCommand();		
+		while(commandHelper.executeNextCommand());
 
 	}
 	

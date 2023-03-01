@@ -26,8 +26,10 @@ public class SaveCmd implements Command {
 		JsonHelper jh = new JsonHelper(arr);
 		jh.stringifyJsonArr();
 		fh.setRawJson(jh.getRawJson());
-		fh.writeToFile();
-		return "Коллекция сохранена";
+		if(fh.writeToFile())
+			return "Коллекция сохранена";
+		else
+			return "Коллекция не сохранена";
 	}
 
 	@Override
