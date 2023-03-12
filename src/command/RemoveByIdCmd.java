@@ -7,8 +7,8 @@ import mainclasses.Ticket;
 public class RemoveByIdCmd implements Command {
 	private LinkedList<Ticket> list;
 	
-	public RemoveByIdCmd(LinkedList<Ticket> list) {
-		this.list = list;
+	public RemoveByIdCmd(CommandHelper ch) {
+		this.list = ch.getList();
 	}
 	
 	

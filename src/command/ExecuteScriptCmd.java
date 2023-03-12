@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 import helpers.FileHelper;
+import helpers.MyScanner;
 import mainclasses.Ticket;
 
 public class ExecuteScriptCmd implements Command {
@@ -14,24 +15,23 @@ public class ExecuteScriptCmd implements Command {
 	private FileHelper fh;
 	private static ArrayList<Path> invokes = new ArrayList<>();
 	
-	public ExecuteScriptCmd(LinkedList<Ticket> list, FileHelper fh) {
-		this.list = list;
-		this.fh = fh;
+	public ExecuteScriptCmd(CommandHelper ch) {
+		this.list = ch.getList();
+		this.fh = ch.getFileHelper();
 	}
 	
 	@Override
 	public String execute(String[] args) {
-		Scanner sc;
+		MyScanner sc;
 		Path path;
 		try {
 			path = Paths.get(args[1]);
-			sc = new Scanner(path);
+			sc = new MyScanner(new Scanner(path), false);
 		} catch (Exception e) {
 			return "Файла с таким названием по этому пути не обнаружено. Создайте, например, файл script.txt в каталоге с программой и введите 'execute_script script.txt'";
 		}
-		CommandHelper commandHelper = new CommandHelper(sc);
-		commandHelper.registerAllCommands(list, fh);
-		
+		CommandHelper commandHelper = new CommandHelper(list, sc, fh);
+		commandHelper.registerAllCommands();
 		if(invokes.contains(path)) {
 			invokes.clear();
 			sc.close();

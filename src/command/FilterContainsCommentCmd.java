@@ -7,8 +7,8 @@ import mainclasses.Ticket;
 public class FilterContainsCommentCmd implements Command {
 	private LinkedList<Ticket> list;
 	
-	public FilterContainsCommentCmd(LinkedList<Ticket> list) {
-		this.list = list;
+	public FilterContainsCommentCmd(CommandHelper ch) {
+		this.list = ch.getList();
 	}
 	
 	

@@ -1,13 +1,13 @@
 package mainclasses;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import enums.EventType;
 import exeptions.WrongFieldExeption;
+import helpers.MyScanner;
 
 public class Event implements Comparable<Event> {
     private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
@@ -94,69 +94,85 @@ public class Event implements Comparable<Event> {
      * @throws WrongFieldExeption Если поля у созданного объекта неверные
      * @throws NoSuchElementException Если ввод полей отменен
      */
-    public static Event create(Scanner sc) throws WrongFieldExeption, NoSuchElementException {
+    public static Event create(MyScanner sc) throws WrongFieldExeption, NoSuchElementException {
     	System.out.println("Введи данные события билета:");
-		
-		String evName;
-		while(true) {
+		boolean needReask = sc.isConsole();
+		String evName = "";
+		do {
 			System.out.print("Введи название:\n>>> ");;
 			evName = sc.nextLine();
+			if(!needReask)
+				System.out.println(evName);
 			if(evName.isBlank()) {
 				System.err.println("Имя события не должно быть пустым");
 				continue;
 			}
 			break;
-		}
+		} while(needReask);
 		
 		LocalDate ld = null;
-		while (true) {
+		do {
 			System.out.print("Введи дату проведения в формате 'YYYY-MM-DD':\n>>> ");
+			String ldStr = sc.nextLine();
+			if(!needReask)
+				System.out.println(ldStr);
 			try {
-				ld = LocalDate.parse(sc.nextLine());
+				ld = LocalDate.parse(ldStr);
 				break;
 			} catch (Exception e) {
 				System.err.println("Ошибка при вводе даты: " + e.getMessage());
 			}
-		}
+		} while(needReask);
 		
 		long minAge = 0;
-		while (true) {
+		do {
 			System.out.print("Введи минимальный возраст (число):\n>>> ");
+			String minAgeStr = sc.nextLine();
+			if(!needReask)
+				System.out.println(minAgeStr);
 			try {
-				minAge = Long.valueOf(sc.nextLine());
+				minAge = Long.parseLong(minAgeStr);
 				break;
 			} catch (Exception e) {
 				System.err.println("Ошибка при вводе возраста: " + e.getMessage());
 			}
-		}
+		} while(needReask);
 		
 		long ticketsCount = 0;
-		while (true) {
+		do {
 			System.out.print("Введи количество билетов (число > 0):\n>>> ");
+			String ticketsCountStr = sc.nextLine();
+			if(!needReask)
+				System.out.println(ticketsCountStr);
 			try {
-				ticketsCount = Long.valueOf(sc.nextLine());
+				ticketsCount = Long.parseLong(ticketsCountStr);
+				if(ticketsCount <= 0)
+					throw new WrongFieldExeption("Число должно быть > 0");
 				break;
 			} catch (Exception e) {
 				System.err.println("Ошибка при вводе количества: " + e.getMessage());
 			}
-		}
+		} while(needReask);
 		
 		EventType type = null;
-		while(true) {
+		do {
 			System.out.println("Введи номер типа события, доступные типы:");
 			EventType[] values = EventType.values();
 			for(int i=0; i<values.length; i++) {
 				System.out.println(" " + (i+1) + ". " + values[i]);
 			}
 			System.out.print(">>> ");
+			String idStr = sc.nextLine();
+			if(!needReask)
+				System.out.println(idStr);
 			try {
-				int id = Integer.valueOf(sc.nextLine());
+				int id = Integer.parseInt(idStr);
 				type = values[id-1];
 				break;
 			} catch (Exception e) {
 				System.err.println("Ошибка при вводе типа: " + e.getMessage());
 			}
-		}
+		} while(needReask);
 		
 		return new Event(evName, ld, minAge, ticketsCount, type);
     }

@@ -7,8 +7,8 @@ import mainclasses.Ticket;
 public class ClearCmd implements Command {
 	private LinkedList<Ticket> list;
 	
-	public ClearCmd(LinkedList<Ticket> list) {
-		this.list = list;
+	public ClearCmd(CommandHelper ch) {
+		this.list = ch.getList();
 	}
 	
 	@Override

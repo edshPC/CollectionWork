@@ -1,19 +1,19 @@
 package command;
 
 import java.util.LinkedList;
-import java.util.Scanner;
 
 import exeptions.WrongFieldExeption;
+import helpers.MyScanner;
 import mainclasses.Event;
 import mainclasses.Ticket;
 
 public class RemoveAllByEventCmd implements Command {
 	private LinkedList<Ticket> list;
-	private Scanner sc;
+	private MyScanner sc;
 	
-	public RemoveAllByEventCmd(LinkedList<Ticket> list, Scanner sc) {
-		this.list = list;
-		this.sc = sc;
+	public RemoveAllByEventCmd(CommandHelper ch) {
+		this.list = ch.getList();
+		this.sc = ch.getScanner();
 	}
 	
 	

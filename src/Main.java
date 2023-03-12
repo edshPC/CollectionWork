@@ -2,9 +2,10 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 import command.*;
-import exeptions.*;
 import helpers.*;
 import mainclasses.Ticket;
+
+//lombok - for auto getters/setters
 
 public class Main {
 
@@ -21,20 +22,16 @@ public class Main {
 		if(fileHelper.readFile()) {
 			JsonHelper jHelper = new JsonHelper(fileHelper.getRawJson());
 			if(jHelper.parseRawJson()) {
-				try {
-					tickets = jHelper.toLinkedList();
-					System.out.println("Загружено " + tickets.size() + " элементов в коллекцию");
-				} catch (WrongFieldExeption e) {
-					System.err.println(e.getMessage());
-				}
+				tickets = jHelper.toLinkedList();
+				System.out.println("Загружено " + tickets.size() + " элементов в коллекцию");
 			}
 		}
 		Ticket.setList(tickets);
 		//Ticket.sortList();
 		
-		Scanner sc = new Scanner(System.in);
-		CommandHelper commandHelper = new CommandHelper(sc);
-		commandHelper.registerAllCommands(tickets, fileHelper);
+		MyScanner sc = new MyScanner(new Scanner(System.in), true);
+		CommandHelper commandHelper = new CommandHelper(tickets, sc, fileHelper);
+		commandHelper.registerAllCommands();
 		
 		while(commandHelper.executeNextCommand());
 

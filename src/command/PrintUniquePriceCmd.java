@@ -8,8 +8,8 @@ import mainclasses.Ticket;
 public class PrintUniquePriceCmd implements Command {
 	private LinkedList<Ticket> list;
 	
-	public PrintUniquePriceCmd(LinkedList<Ticket> list) {
-		this.list = list;
+	public PrintUniquePriceCmd(CommandHelper ch) {
+		this.list = ch.getList();
 	}
 	
 	@Override

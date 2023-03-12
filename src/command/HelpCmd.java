@@ -2,6 +2,8 @@ package command;
 
 public class HelpCmd implements Command {
 	
+	public HelpCmd(CommandHelper ch) {}
+	
 	@Override
 	public String execute(String[] args) {
 		String out = """

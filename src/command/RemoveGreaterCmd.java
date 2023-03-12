@@ -7,8 +7,8 @@ import mainclasses.Ticket;
 public class RemoveGreaterCmd implements Command {
 	private LinkedList<Ticket> list;
 	
-	public RemoveGreaterCmd(LinkedList<Ticket> list) {
-		this.list = list;
+	public RemoveGreaterCmd(CommandHelper ch) {
+		this.list = ch.getList();
 	}
 	
 	

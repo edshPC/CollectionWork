@@ -1,13 +1,13 @@
 package command;
 
-import java.util.Scanner;
+import helpers.MyScanner;
 
 public class ExitCmd implements Command {
 	
-	private Scanner sc;
+	private MyScanner sc;
 		
-	public ExitCmd(Scanner sc) {
-		this.sc = sc;
+	public ExitCmd(CommandHelper ch) {
+		this.sc = ch.getScanner();
 	}
 	
 	@Override

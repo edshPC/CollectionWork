@@ -1,23 +1,24 @@
 package command;
 
 import java.util.LinkedList;
-import java.util.Scanner;
 
 import exeptions.WrongFieldExeption;
+import helpers.MyScanner;
 import mainclasses.Ticket;
 
 public class AddCmd implements Command {
+	//private CommandHelper ch;
 	private LinkedList<Ticket> list;
-	private Scanner sc;
+	private MyScanner sc;
 	
-	public AddCmd(LinkedList<Ticket> list, Scanner sc) {
-		this.list = list;
-		this.sc = sc;
+	public AddCmd(CommandHelper ch) {
+		//this.ch = ch;
+		this.list = ch.getList();
+		this.sc = ch.getScanner();
 	}
 	
 	@Override
 	public String execute(String[] args) {
-		//Scanner sc = new Scanner(System.in);
 		
 		try {
 			list.add(Ticket.create(sc));

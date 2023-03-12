@@ -49,13 +49,17 @@ public class JsonHelper {
 	/**
 	 * Сбор коллекции объектов из заданного {@link JSONArray}
 	 * @return Собранная коллекция
-	 * @throws WrongFieldExeption Если поля хотя бы одного объекта недопустимы
 	 */
-	public LinkedList<Ticket> toLinkedList() throws WrongFieldExeption {
+	public LinkedList<Ticket> toLinkedList() {
 		LinkedList<Ticket> temp = new LinkedList<>();
 		
 		for(int i=0; i<jsonArr.length(); i++) {
-			temp.add(new Ticket(jsonArr.getJSONObject(i)));
+			
+			try {
+				temp.add(new Ticket(jsonArr.getJSONObject(i)));
+			} catch (WrongFieldExeption | JSONException e) {
+				System.err.println("Пропущен поврежденный билет: " + e.getMessage());
+			}
 		}
 		
 		return temp;

@@ -12,9 +12,9 @@ public class SaveCmd implements Command {
 	private LinkedList<Ticket> list;
 	private FileHelper fh;
 	
-	public SaveCmd(LinkedList<Ticket> list, FileHelper fh) {
-		this.list = list;
-		this.fh = fh;
+	public SaveCmd(CommandHelper ch) {
+		this.list = ch.getList();
+		this.fh = ch.getFileHelper();
 	}
 	
 	@Override

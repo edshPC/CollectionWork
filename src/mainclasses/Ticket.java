@@ -2,14 +2,14 @@ package mainclasses;
 import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import enums.TicketType;
 import exeptions.WrongFieldExeption;
-//lombok
+import helpers.MyScanner;
+
 public class Ticket implements Comparable<Ticket> {
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -156,38 +156,46 @@ public class Ticket implements Comparable<Ticket> {
      * @throws WrongFieldExeption Если поля у созданного объекта неверные
      * @throws NoSuchElementException Если ввод полей отменен
      */
-    public static Ticket create(Scanner sc) throws WrongFieldExeption, NoSuchElementException {
-    	
-    	String ticketName;
-		while(true) {
+    public static Ticket create(MyScanner sc) throws WrongFieldExeption, NoSuchElementException {
+    	boolean needReask = sc.isConsole();//sc.hasNext();
+    	String ticketName = "";
+		do {
 			System.out.print("Введи имя билета:\n>> ");
 			ticketName = sc.nextLine();
+			if(!needReask)
+				System.out.println(ticketName);
 			if(ticketName.isBlank()) {
 				System.err.println("Имя билета не должно быть пустым");
 				continue;
 			}
 			break;
-		}
+		} while(needReask);
 		
 		Coordinates coords = null;
-		while(true) {
+		do {
 			System.out.print("Введи координаты места через запятую (x - float <= 542, y - int <= 203, пример: '10.2, 20'):\n>> ");
-			String[] coordsStr = sc.nextLine().split(", ");
+			String coordsStr = sc.nextLine();
+			if(!needReask)
+				System.out.println(coordsStr);
+			String[] coordsSplit = coordsStr.split(", ");
 			try {
-				float x = Float.valueOf(coordsStr[0]);
-				int y = Integer.valueOf(coordsStr[1]);
+				float x = Float.parseFloat(coordsSplit[0]);
+				int y = Integer.parseInt(coordsSplit[1]);
 				coords = new Coordinates(x, y);
 				break;
 			} catch (NumberFormatException | IndexOutOfBoundsException | WrongFieldExeption e) {
 				System.err.println("Ошибка при вводе координат: " + e.getMessage());
 			}
-		}
+		} while(needReask);
 		
 		long price = 0;
-		while(true) {
+		do {
 			System.out.print("Введи цену билета (число > 0):\n>> ");
+			String priceStr = sc.nextLine();
+			if(!needReask)
+				System.out.println(priceStr);
 			try {
-				price = Long.valueOf(sc.nextLine());
+				price = Long.parseLong(priceStr);
 				if(price <= 0) {
 					System.err.println("Цена должна быть > 0");
 					continue;
@@ -196,38 +204,42 @@ public class Ticket implements Comparable<Ticket> {
 			} catch (NumberFormatException e) {
 				System.err.println("Ошибка при вводе цены: " + e.getMessage());
 			}
-		}
+		} while(needReask);
 		
 		System.out.print("Введи комментарий:\n>> ");
 		String comment = sc.nextLine();
+		if(!needReask)
+			System.out.println(comment);
 		
 		TicketType type = null;
-		while(true) {
+		do {
 			System.out.println("Введи номер типа билета, доступные типы:");
 			TicketType[] values = TicketType.values();
 			for(int i=0; i<values.length; i++) {
 				System.out.println(" " + (i+1) + ". " + values[i]);
 			}
 			System.out.print(">> ");
+			String strId = sc.nextLine();
+			if(!needReask)
+				System.out.println(strId);
 			try {
-				int id = Integer.valueOf(sc.nextLine());
+				int id = Integer.parseInt(strId);
 				type = values[id-1];
 				break;
 			} catch (NumberFormatException | IndexOutOfBoundsException e) {
 				System.err.println("Ошибка при вводе типа: " + e.getMessage());
 			}
-		}
+		} while(needReask);
 		
 		Event event = null;
-		while(true) {
+		do {
 			try {
 				event = Event.create(sc);
 				break;
 			} catch (Exception e) {
 				System.err.println("Ошибка при создании события: " + e.getMessage());
 			}
-		}
-		
+		} while(needReask);
 		
     	return new Ticket(ticketName, coords, price, comment, type, event);
     }

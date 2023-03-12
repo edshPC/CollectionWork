@@ -6,21 +6,24 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import helpers.FileHelper;
+import helpers.MyScanner;
 import mainclasses.Ticket;
 
 public class CommandHelper {
-	//private LinkedList<Ticket> list;
-	//private FileHelper fileHelper;
-	private Scanner sc;
+	private LinkedList<Ticket> list;
+	private FileHelper fileHelper;
+	private MyScanner sc;
 	private HashMap<String, Command> commands;
 	
 	/**
 	 * Создает объект, работающий с командами из определенного потока в {@link Scanner}
+	 * @param list Коллекция для обработки
 	 * @param sc Сканер
+	 * @param fh Файловый помошник с файлом коллекции
 	 */
-	public CommandHelper(Scanner sc) {
-		//this.list = list;
-		//this.fileHelper = fh;
+	public CommandHelper(LinkedList<Ticket> list, MyScanner sc, FileHelper fh) {
+		this.list = list;
+		this.fileHelper = fh;
 		this.sc = sc;
 		commands = new HashMap<>();
 	}
@@ -37,16 +40,16 @@ public class CommandHelper {
 	
 	/**
 	 * Регистрирует все возможные команды
-	 * @param list Массив для сортировки командами
-	 * @param fileHelper Помощник, работающий с определенным файлом
 	 */
-	public void registerAllCommands(LinkedList<Ticket> list, FileHelper fileHelper) {
-		registerCommands(new HelpCmd(), new InfoCmd(list, fileHelper), new ShowCmd(list), new AddCmd(list, sc),
-				new UpdateCmd(sc), new RemoveByIdCmd(list), new ClearCmd(list), new SaveCmd(list, fileHelper),
-				new ExecuteScriptCmd(list, fileHelper), new ExitCmd(sc), new RemoveFirstCmd(list),
-				new RemoveGreaterCmd(list), new RemoveLowerCmd(list), new RemoveAllByEventCmd(list, sc),
-				new FilterContainsCommentCmd(list), new PrintUniquePriceCmd(list), new SortCmd());
+	public void registerAllCommands() {
+		registerCommands(new HelpCmd(this), new InfoCmd(this), new ShowCmd(this), new AddCmd(this),
+				new UpdateCmd(this), new RemoveByIdCmd(this), new ClearCmd(this), new SaveCmd(this),
+				new ExecuteScriptCmd(this), new ExitCmd(this), new RemoveFirstCmd(this),
+				new RemoveGreaterCmd(this), new RemoveLowerCmd(this), new RemoveAllByEventCmd(this),
+				new FilterContainsCommentCmd(this), new PrintUniquePriceCmd(this), new SortCmd(this));
 	}
+	
+	
 	
 	/**
 	 * Начинает ожидание ввода и исполнение команды пользователя, считывая через собственный {@link Scanner}
@@ -54,7 +57,10 @@ public class CommandHelper {
 	public boolean executeNextCommand() {
 		System.out.print("> ");
 		try {
-			String[] cmd = sc.nextLine().split(" ");
+			String cmdStr = sc.nextLine();
+			if(!sc.isConsole())
+				System.out.println(cmdStr);
+			String[] cmd = cmdStr.split(" ");
 			
 			if(cmd.length > 0 && commands.containsKey(cmd[0])) {
 				Command command = commands.get(cmd[0]);
@@ -70,5 +76,17 @@ public class CommandHelper {
 		}
 		return true;
 		//executeNextCommand();
+	}
+
+	public LinkedList<Ticket> getList() {
+		return list;
+	}
+
+	public FileHelper getFileHelper() {
+		return fileHelper;
+	}
+	
+	public MyScanner getScanner() {
+		return sc;
 	}
 }

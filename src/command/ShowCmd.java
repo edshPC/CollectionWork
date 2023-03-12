@@ -7,8 +7,8 @@ import mainclasses.Ticket;
 public class ShowCmd implements Command {
 	private LinkedList<Ticket> list;
 	
-	public ShowCmd(LinkedList<Ticket> list) {
-		this.list = list;
+	public ShowCmd(CommandHelper ch) {
+		this.list = ch.getList();
 	}
 	
 	@Override

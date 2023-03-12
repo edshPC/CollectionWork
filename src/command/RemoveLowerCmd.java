@@ -7,8 +7,8 @@ import mainclasses.Ticket;
 public class RemoveLowerCmd implements Command {
 	private LinkedList<Ticket> list;
 	
-	public RemoveLowerCmd(LinkedList<Ticket> list) {
-		this.list = list;
+	public RemoveLowerCmd(CommandHelper ch) {
+		this.list = ch.getList();
 	}
 	
 	

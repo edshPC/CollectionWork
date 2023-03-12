@@ -9,9 +9,9 @@ public class InfoCmd implements Command {
 	private LinkedList<Ticket> list;
 	private FileHelper fh;
 	
-	public InfoCmd(LinkedList<Ticket> list, FileHelper fh) {
-		this.list = list;
-		this.fh = fh;
+	public InfoCmd(CommandHelper ch) {
+		this.list = ch.getList();
+		this.fh = ch.getFileHelper();
 	}
 	
 	@Override

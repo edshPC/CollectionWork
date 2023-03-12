@@ -1,15 +1,14 @@
 package command;
 
-import java.util.Scanner;
-
 import exeptions.WrongFieldExeption;
+import helpers.MyScanner;
 import mainclasses.Ticket;
 
 public class UpdateCmd implements Command {
-	private Scanner sc;
+	private MyScanner sc;
 	
-	public UpdateCmd(Scanner sc) {
-		this.sc = sc;
+	public UpdateCmd(CommandHelper ch) {
+		this.sc = ch.getScanner();
 	}
 	
 	@Override
