@@ -34,6 +34,7 @@ public class Main {
 		commandHelper.registerAllCommands();
 		
 		while(commandHelper.executeNextCommand());
+		
 
 	}
 	
